@@ -1,0 +1,40 @@
+pipeline:
+  name: python-pipeline-sample-flask-app
+  identifier: pythonpipelinesampleflaskapp
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: pythonsamplespipelineconnector
+        build: <+input>
+        sparseCheckout: []
+  stages:
+    - stage:
+        name: build test and run stage
+        identifier: build_and_run_stage
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          caching:
+            enabled: true
+            paths: []
+          buildIntelligence:
+            enabled: false
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: compile python code
+                  identifier: compile_python_code
+                  spec:
+                    shell: Python
+                    command: python -m compileall ./
