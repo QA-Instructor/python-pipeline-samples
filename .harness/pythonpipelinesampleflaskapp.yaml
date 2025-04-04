@@ -97,6 +97,8 @@ pipeline:
                     image: victorialloyd/harness-python-flask-demo-app
                     shell: Sh
                     command: python3 /python-pipeline-samples/app.py
+                    portBindings:
+                      "5000": "5000"
                   description: server connection test
               - step:
                   type: Run
