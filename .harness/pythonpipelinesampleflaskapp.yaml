@@ -40,3 +40,31 @@ pipeline:
                     image: python:3.10.6-alpine
                     shell: Sh
                     command: python -m compileall ./
+              - step:
+                  type: Run
+                  name: create dockerfile
+                  identifier: create_dockerfile
+                  spec:
+                    connectorRef: dockerhubpat
+                    image: alpine
+                    shell: Sh
+                    command: |-
+                      touch pythondockerfile
+                      cat > pythondockerfile <<- EOM
+                      FROM python:3.10.6-alpine
+                      WORKDIR /python-pipeline-samples
+                      ADD . /python-pipeline-samples
+                      RUN pip install -r requirements.txt
+                      CMD ["python" , "app.py"]
+                      EOM
+                      cat pythondockerfile
+              - step:
+                  type: BuildAndPushDockerRegistry
+                  name: build and push image to Dockerhub
+                  identifier: build_and_push_image_to_Dockerhub
+                  spec:
+                    connectorRef: dockerhubpat
+                    repo: victorialloyd/harness-python-flask-demo-app
+                    tags:
+                      - latest
+                    dockerfile: pythondockerfile
