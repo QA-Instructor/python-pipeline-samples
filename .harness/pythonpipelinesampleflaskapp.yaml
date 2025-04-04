@@ -68,3 +68,44 @@ pipeline:
                     tags:
                       - latest
                     dockerfile: pythondockerfile
+    - stage:
+        name: integration test
+        identifier: integration_test
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          caching:
+            enabled: true
+            paths: []
+          buildIntelligence:
+            enabled: false
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Background
+                  name: python server
+                  identifier: python_server
+                  spec:
+                    connectorRef: dockerhubpat
+                    image: harness-python-flask-demo-app:latest
+                    shell: Sh
+                    command: python3 /python-pipeline-samples/app.py
+                  description: server connection test
+              - step:
+                  type: Run
+                  name: test connection to server
+                  identifier: test_connection_to_server
+                  spec:
+                    connectorRef: dockerhubpat
+                    image: curlimages/curl:7.73.0
+                    shell: Sh
+                    command: |-
+                      sleep 10
+                      curl localhost:5000
