@@ -94,7 +94,7 @@ pipeline:
                   identifier: python_server
                   spec:
                     connectorRef: dockerhubpat
-                    image: harness-python-flask-demo-app:latest
+                    image: victorialloyd/harness-python-flask-demo-app
                     shell: Sh
                     command: python3 /python-pipeline-samples/app.py
                   description: server connection test
