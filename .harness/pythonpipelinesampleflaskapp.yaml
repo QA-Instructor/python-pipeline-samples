@@ -36,5 +36,7 @@ pipeline:
                   name: compile python code
                   identifier: compile_python_code
                   spec:
-                    shell: Python
+                    connectorRef: dockerhubpat
+                    image: python:3.10.6-alpine
+                    shell: Sh
                     command: python -m compileall ./
