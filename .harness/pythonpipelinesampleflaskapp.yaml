@@ -66,7 +66,7 @@ pipeline:
                     connectorRef: dockerhubpat
                     repo: victorialloyd/harness-python-flask-demo-app
                     tags:
-                      - latest
+                      - <+pipeline.sequenceId>
                     dockerfile: pythondockerfile
     - stage:
         name: integration test
